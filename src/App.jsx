@@ -49,6 +49,121 @@ const TRAIN_LEFT_BY_STEP = {
   7: 88,
 };
 
+const TRANSLATIONS = {
+  en: {
+    stages: [
+      "Idle",
+      "Train approaching",
+      "Rail vibrations detected",
+      "Forwarder relays signal",
+      "Station receives alert",
+      "Wearables warn workers",
+      "Workers move to safety",
+      "Train clears the area",
+    ],
+    title: "Railway Worker Safety Demo",
+    subtitle:
+      "Interactive static presentation showing how rail vibrations are detected, forwarded over distance, and turned into alerts for workers wearing warning devices.",
+    badges: ["Static frontend", "Interview demo", "Interactive scenario"],
+    language: "Language",
+    controls: "Controls",
+    sendTrain: "Send a train",
+    pause: "Pause",
+    resume: "Resume",
+    stepBack: "Step back",
+    stepForward: "Step forward",
+    reset: "Reset",
+    autoResetTitle: "Auto reset after final step",
+    autoResetSubtitle: "Train pauses for 5 seconds at the end, then teleports back.",
+    viewerTitle: "What the viewer is seeing",
+    currentStage: "Current stage",
+    approachLabel: "Train approaching from far outside the monitored zone",
+    vibrationLabel: "Vibration sensed long before arrival",
+    relayLabel: "Forwarded wirelessly",
+    stationLabel: "Station receives alert",
+    detectionZone: "Early vibration detection zone",
+    dangerZone: "Worker danger zone near rails",
+    railSensorTitle: "Rail Sensor",
+    railSensorSubtitle: "Mounted on the rails to sense early vibration from an approaching train",
+    forwarderTitle: "Forwarder",
+    forwarderSubtitle: "Mounted on a ~2 m pole near the sensor to relay the event wirelessly over long distance",
+    stationTitle: "Station Device",
+    stationSubtitle: "Placed near workers to receive the alert and trigger local warning",
+    wearablesTitle: "Wearables",
+    wearablesSubtitle: "Immediately warn workers so they move away from the track zone",
+    workersSafe: "Workers reached safer positions",
+    workersSafeText: "Workers are clear of the rails. The next step sends the train out of the scene.",
+    trainPassed: "Train passed safely",
+    trainPassedText: "The train clears the work area in a separate final step.",
+    stepText: [
+      "The system is waiting. No train has entered the monitored section yet.",
+      "The train moves into the monitored approach zone.",
+      "The rail sensor detects vibration before the train reaches the workers.",
+      "The forwarder relays the warning further down the line.",
+      "The station device near the workers receives the alert.",
+      "Wearables warn workers that a train is approaching.",
+      "Workers spread outward into safer positions and the train pauses before the final clearance step.",
+      "The train clears the work area in a separate final step after workers are already safe.",
+    ],
+  },
+  ru: {
+    stages: [
+      "Ожидание",
+      "Поезд приближается",
+      "Обнаружена вибрация рельса",
+      "Ретранслятор передаёт сигнал",
+      "Станция получает сигнал",
+      "Носимые устройства предупреждают",
+      "Рабочие отходят в безопасную зону",
+      "Поезд покидает участок",
+    ],
+    title: "Демо системы безопасности на железной дороге",
+    subtitle:
+      "Интерактивная статическая презентация, показывающая, как вибрации рельса обнаруживаются, передаются на расстояние и превращаются в предупреждения для носимых устройств рабочих.",
+    badges: ["Статический фронтенд", "Демо для интервью", "Интерактивный сценарий"],
+    language: "Язык",
+    controls: "Управление",
+    sendTrain: "Запустить поезд",
+    pause: "Пауза",
+    resume: "Продолжить",
+    stepBack: "Шаг назад",
+    stepForward: "Шаг вперёд",
+    reset: "Сброс",
+    autoResetTitle: "Автосброс после финального шага",
+    autoResetSubtitle: "Поезд ждёт 5 секунд в конце, затем телепортируется в начало.",
+    viewerTitle: "Что видит пользователь",
+    currentStage: "Текущий этап",
+    approachLabel: "Поезд приближается издалека к контролируемой зоне",
+    vibrationLabel: "Вибрация обнаружена задолго до прибытия",
+    relayLabel: "Сигнал передан по беспроводной связи",
+    stationLabel: "Станция получила сигнал",
+    detectionZone: "Зона раннего обнаружения вибрации",
+    dangerZone: "Опасная зона для рабочих у рельсов",
+    railSensorTitle: "Датчик на рельсе",
+    railSensorSubtitle: "Установлен на рельсе для раннего обнаружения вибрации от приближающегося поезда",
+    forwarderTitle: "Ретранслятор",
+    forwarderSubtitle: "Установлен рядом с датчиком на столбе высотой ~2 м для дальней беспроводной передачи сигнала",
+    stationTitle: "Станционное устройство",
+    stationSubtitle: "Расположено рядом с рабочими, получает сигнал и запускает локальное предупреждение",
+    wearablesTitle: "Носимые устройства",
+    wearablesSubtitle: "Мгновенно предупреждают рабочих, чтобы они отошли от путей",
+    workersSafe: "Рабочие достигли безопасных позиций",
+    workersSafeText: "Рабочие уже вне рельсов. Следующий шаг выведет поезд за пределы сцены.",
+    trainPassed: "Поезд прошёл безопасно",
+    trainPassedText: "Поезд покидает рабочую зону отдельным финальным шагом.",
+    stepText: [
+      "Система ожидает. Поезд ещё не вошёл в контролируемый участок.",
+      "Поезд входит в контролируемую зону приближения.",
+      "Датчик на рельсе обнаруживает вибрацию до того, как поезд достигнет рабочих.",
+      "Ретранслятор передаёт предупреждение дальше по линии.",
+      "Станционное устройство рядом с рабочими получает сигнал.",
+      "Носимые устройства предупреждают рабочих о приближении поезда.",
+      "Рабочие расходятся в безопасные позиции, а поезд ждёт перед финальным этапом ухода.",
+      "Поезд покидает рабочую зону отдельным финальным шагом после того, как рабочие уже в безопасности.",
+    ],
+  },
+};
+
 function StagePill({ active, children }) {
   return (
     <div
@@ -104,20 +219,6 @@ function UIButton({ children, onClick, variant = "default", className = "", ...p
 
 function BadgePill({ children }) {
   return <span className="rounded-full border border-slate-200 px-3 py-1 text-sm">{children}</span>;
-}
-
-function RangeSlider({ value, onChange, min, max, step = 1 }) {
-  return (
-    <input
-      type="range"
-      min={min}
-      max={max}
-      step={step}
-      value={value}
-      onChange={(e) => onChange([Number(e.target.value)])}
-      className="w-full accent-slate-900"
-    />
-  );
 }
 
 function Toggle({ checked, onChange }) {
@@ -287,11 +388,12 @@ export default function RailwaySafetyInteractiveDemo() {
   const [isRunning, setIsRunning] = useState(false);
   const [autoReset, setAutoReset] = useState(true);
   const [teleportTrain, setTeleportTrain] = useState(false);
+  const [language, setLanguage] = useState("en");
 
   const stepTimeoutRef = useRef(null);
   const finishTimeoutRef = useRef(null);
 
-  const workers = workersDefault;
+  const t = TRANSLATIONS[language];
   const stepDelay = 1800;
   const trainMoveDuration = 1.05;
   const trainLeft = TRAIN_LEFT_BY_STEP[step] ?? TRAIN_LEFT_BY_STEP[0];
@@ -359,7 +461,7 @@ export default function RailwaySafetyInteractiveDemo() {
     }, stepDelay);
 
     return clearTimers;
-  }, [isRunning, step, stepDelay, autoReset]);
+  }, [isRunning, step, autoReset]);
 
   const vibrationDetected = step >= 2;
   const relayActive = step >= 3;
@@ -374,23 +476,38 @@ export default function RailwaySafetyInteractiveDemo() {
           <PanelHeader>
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
-                <PanelTitle className="text-2xl md:text-3xl">Railway Worker Safety Demo</PanelTitle>
-                <p className="text-base text-slate-600 mt-2 max-w-2xl">
-                  Interactive static presentation showing how rail vibrations are detected, forwarded over distance, and turned into alerts for workers wearing warning devices.
-                </p>
+                <PanelTitle className="text-2xl md:text-3xl">{t.title}</PanelTitle>
+                <p className="text-base text-slate-600 mt-2 max-w-2xl">{t.subtitle}</p>
               </div>
-              <div className="flex flex-wrap gap-2">
-                <BadgePill>Static frontend</BadgePill>
-                <BadgePill>Interview demo</BadgePill>
-                <BadgePill>Interactive scenario</BadgePill>
+              <div className="flex flex-wrap items-center gap-2">
+                <BadgePill>{t.badges[0]}</BadgePill>
+                <BadgePill>{t.badges[1]}</BadgePill>
+                <BadgePill>{t.badges[2]}</BadgePill>
+                <div className="ml-2 flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2 py-1">
+                  <span className="text-sm text-slate-600">{t.language}</span>
+                  <button
+                    type="button"
+                    onClick={() => setLanguage("en")}
+                    className={`rounded-full px-3 py-1 text-sm transition ${language === "en" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLanguage("ru")}
+                    className={`rounded-full px-3 py-1 text-sm transition ${language === "ru" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}
+                  >
+                    RU
+                  </button>
+                </div>
               </div>
             </div>
           </PanelHeader>
 
           <PanelContent>
             <div className="flex flex-wrap gap-2 mb-5">
-              {STAGES.map((label, i) => (
-                <StagePill key={label} active={i === step}>
+              {t.stages.map((label, i) => (
+                <StagePill key={i} active={i === step}>
                   {i + 1}. {label}
                 </StagePill>
               ))}
@@ -437,7 +554,7 @@ export default function RailwaySafetyInteractiveDemo() {
                     exit={{ opacity: 0 }}
                     className="absolute left-[2%] top-[34%] rounded-full bg-white/95 px-3 py-1 text-sm font-medium border border-slate-200 shadow"
                   >
-                    Train approaching from far outside the monitored zone
+                    {t.approachLabel}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -446,13 +563,13 @@ export default function RailwaySafetyInteractiveDemo() {
                 <>
                   <PulseRing x={28} y={50} color="bg-emerald-500" size={20} active />
                   <PulseRing x={31} y={50} color="bg-emerald-500" size={18} active />
-                  <SignalDot x={31} y={40} label="Vibration sensed long before arrival" delay={0.2} duration={1.6} />
+                  <SignalDot x={31} y={40} label={t.vibrationLabel} delay={0.2} duration={1.6} />
                 </>
               )}
 
               <div className="absolute left-[2%] top-[39%] h-[21%] w-[30%] rounded-[40px] border-2 border-dashed border-emerald-500/70 bg-emerald-100/30" />
               <div className="absolute left-[23%] top-[62%] rounded-full bg-emerald-600 px-3 py-1 text-sm text-white shadow">
-                Early vibration detection zone
+                {t.detectionZone}
               </div>
 
               {relayActive && (
@@ -463,7 +580,7 @@ export default function RailwaySafetyInteractiveDemo() {
                     animate={{ width: "7%", opacity: 1 }}
                     transition={{ duration: 1.1, ease: "easeInOut" }}
                   />
-                  <SignalDot x={34} y={31} label="Forwarded wirelessly" delay={0.4} duration={1.8} />
+                  <SignalDot x={34} y={31} label={t.relayLabel} delay={0.4} duration={1.8} />
                 </>
               )}
 
@@ -476,7 +593,7 @@ export default function RailwaySafetyInteractiveDemo() {
                     transition={{ duration: 1.0, ease: "easeInOut" }}
                   />
                   <PulseRing x={84} y={30} color="bg-sky-500" size={22} active />
-                  <SignalDot x={60} y={24} label="Station receives alert" delay={0.2} duration={1.8} />
+                  <SignalDot x={60} y={24} label={t.stationLabel} delay={0.2} duration={1.8} />
                 </>
               )}
 
@@ -490,7 +607,7 @@ export default function RailwaySafetyInteractiveDemo() {
 
               <div className="absolute left-[63%] top-[44%] h-[21%] w-[33%] rounded-[40px] border-2 border-dashed border-red-400/70 bg-red-100/30" />
               <div className="absolute left-[70%] top-[66%] rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow">
-                Worker danger zone near rails
+                {t.dangerZone}
               </div>
 
               {workersDefault.map((w) => (
@@ -509,8 +626,8 @@ export default function RailwaySafetyInteractiveDemo() {
               <DeviceLabel
                 x={27}
                 y={50}
-                title="Rail Sensor"
-                subtitle="Mounted on the rails to sense early vibration from an approaching train"
+                title={t.railSensorTitle}
+                subtitle={t.railSensorSubtitle}
                 icon={<Activity className="h-4 w-4" />}
                 active={vibrationDetected}
                 imageSrc={deviceImages.railSensor}
@@ -519,8 +636,8 @@ export default function RailwaySafetyInteractiveDemo() {
               <DeviceLabel
                 x={37}
                 y={40}
-                title="Forwarder"
-                subtitle="Mounted on a ~2 m pole near the sensor to relay the event wirelessly over long distance"
+                title={t.forwarderTitle}
+                subtitle={t.forwarderSubtitle}
                 icon={<Radio className="h-4 w-4" />}
                 active={relayActive}
                 imageSrc={deviceImages.forwarder}
@@ -529,8 +646,8 @@ export default function RailwaySafetyInteractiveDemo() {
               <DeviceLabel
                 x={84}
                 y={40}
-                title="Station Device"
-                subtitle="Placed near workers to receive the alert and trigger local warning"
+                title={t.stationTitle}
+                subtitle={t.stationSubtitle}
                 icon={<Waves className="h-4 w-4" />}
                 active={stationActive}
                 imageSrc={deviceImages.station}
@@ -539,8 +656,8 @@ export default function RailwaySafetyInteractiveDemo() {
               <DeviceLabel
                 x={74}
                 y={65}
-                title="Wearables"
-                subtitle="Immediately warn workers so they move away from the track zone"
+                title={t.wearablesTitle}
+                subtitle={t.wearablesSubtitle}
                 icon={<ShieldAlert className="h-4 w-4" />}
                 active={workersAlerted}
                 imageSrc={deviceImages.wearables}
@@ -557,12 +674,10 @@ export default function RailwaySafetyInteractiveDemo() {
                       className="absolute right-4 bottom-4 rounded-2xl bg-emerald-600 px-4 py-3 text-white shadow-xl"
                     >
                       <div className="font-semibold text-lg">
-                        {step >= 7 ? "Train passed safely" : "Workers reached safer positions"}
+                        {step >= 7 ? t.trainPassed : t.workersSafe}
                       </div>
                       <div className="text-sm text-emerald-50 mt-1">
-                        {step >= 7
-                          ? "The train clears the work area in a separate final step."
-                          : "Workers are clear of the rails. The next step sends the train out of the scene."}
+                        {step >= 7 ? t.trainPassedText : t.workersSafeText}
                       </div>
                     </motion.div>
 
@@ -573,7 +688,7 @@ export default function RailwaySafetyInteractiveDemo() {
                         exit={{ opacity: 0, scale: 0.96 }}
                         className="absolute right-6 top-[36%] rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg"
                       >
-                        Train passed safely
+                        {t.trainPassed}
                       </motion.div>
                     )}
                   </>
@@ -586,38 +701,36 @@ export default function RailwaySafetyInteractiveDemo() {
         <div className="grid gap-6">
           <Panel>
             <PanelHeader>
-              <PanelTitle className="text-xl">Controls</PanelTitle>
+              <PanelTitle className="text-xl">{t.controls}</PanelTitle>
             </PanelHeader>
             <PanelContent className="space-y-5">
               <div className="flex flex-wrap gap-3">
                 <UIButton onClick={startScenario}>
                   <Train className="mr-2 h-4 w-4" />
-                  Send a train
+                  {t.sendTrain}
                 </UIButton>
                 <UIButton onClick={() => setIsRunning((v) => !v)} variant="outline">
                   {isRunning ? <PauseCircle className="mr-2 h-4 w-4" /> : <PlayCircle className="mr-2 h-4 w-4" />}
-                  {isRunning ? "Pause" : "Resume"}
+                  {isRunning ? t.pause : t.resume}
                 </UIButton>
                 <UIButton onClick={stepBack} variant="outline">
                   <ChevronLeft className="mr-2 h-4 w-4" />
-                  Step back
+                  {t.stepBack}
                 </UIButton>
                 <UIButton onClick={stepForward} variant="outline">
                   <ChevronRight className="mr-2 h-4 w-4" />
-                  Step forward
+                  {t.stepForward}
                 </UIButton>
                 <UIButton onClick={reset} variant="ghost">
                   <RotateCcw className="mr-2 h-4 w-4" />
-                  Reset
+                  {t.reset}
                 </UIButton>
               </div>
 
               <div className="flex items-center justify-between rounded-2xl border border-slate-200 p-3">
                 <div>
-                  <div className="text-base font-medium">Auto reset after final step</div>
-                  <div className="text-sm text-slate-600">
-                    Train pauses for 5 seconds at the end, then teleports back.
-                  </div>
+                  <div className="text-base font-medium">{t.autoResetTitle}</div>
+                  <div className="text-sm text-slate-600">{t.autoResetSubtitle}</div>
                 </div>
                 <Toggle checked={autoReset} onChange={setAutoReset} />
               </div>
@@ -626,30 +739,19 @@ export default function RailwaySafetyInteractiveDemo() {
 
           <Panel>
             <PanelHeader>
-              <PanelTitle className="text-xl">What the viewer is seeing</PanelTitle>
+              <PanelTitle className="text-xl">{t.viewerTitle}</PanelTitle>
             </PanelHeader>
             <PanelContent>
               <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4">
                 <div className="flex items-center gap-2 text-base font-semibold">
                   <AlertTriangle className="h-4 w-4" />
-                  Current stage
+                  {t.currentStage}
                 </div>
-                <div className="mt-3 text-xl font-semibold">{STAGES[step]}</div>
-                <p className="mt-2 text-base text-slate-600 leading-7">
-                  {step === 0 && "The system is waiting. No train has entered the monitored section yet."}
-                  {step === 1 && "The train moves into the monitored approach zone."}
-                  {step === 2 && "The rail sensor detects vibration before the train reaches the workers."}
-                  {step === 3 && "The forwarder relays the warning further down the line."}
-                  {step === 4 && "The station device near the workers receives the alert."}
-                  {step === 5 && "Wearables warn workers that a train is approaching."}
-                  {step === 6 && "Workers spread outward into safer positions and the train pauses before the final clearance step."}
-                  {step === 7 && "The train clears the work area in a separate final step after workers are already safe."}
-                </p>
+                <div className="mt-3 text-xl font-semibold">{t.stages[step]}</div>
+                <p className="mt-2 text-base text-slate-600 leading-7">{t.stepText[step]}</p>
               </div>
             </PanelContent>
           </Panel>
-
-
         </div>
       </div>
     </div>
