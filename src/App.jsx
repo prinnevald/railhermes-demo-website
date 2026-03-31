@@ -32,9 +32,9 @@ const workersDefault = [
 ];
 
 const deviceImages = {
-  railSensor: "/images/rail-sensor.jpg",
-  forwarder: "/images/forwarder.jpg",
-  station: "/images/station.jpg",
+  railSensor: "/images/rail-sensor2.jpg",
+  forwarder: "/images/forwarder2.jpg",
+  station: "/images/station2.jpg",
   wearables: "/images/wearable.jpg",
 };
 
