@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
@@ -10,6 +10,8 @@ import {
   RotateCcw,
   PlayCircle,
   PauseCircle,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const STAGES = [
@@ -20,6 +22,7 @@ const STAGES = [
   "Station receives alert",
   "Wearables warn workers",
   "Workers move to safety",
+  "Train clears the area",
 ];
 
 const workersDefault = [
@@ -35,10 +38,21 @@ const deviceImages = {
   wearables: "/images/wearable.jpg",
 };
 
+const TRAIN_LEFT_BY_STEP = {
+  0: -28,
+  1: -14,
+  2: -2,
+  3: 10,
+  4: 22,
+  5: 34,
+  6: 52,
+  7: 88,
+};
+
 function StagePill({ active, children }) {
   return (
     <div
-      className={`rounded-full px-3 py-1 text-xs md:text-sm border transition-all ${
+      className={`rounded-full px-3 py-1 text-sm md:text-base border transition-all ${
         active
           ? "bg-black text-white border-black shadow"
           : "bg-white text-slate-700 border-slate-200"
@@ -80,7 +94,7 @@ function UIButton({ children, onClick, variant = "default", className = "", ...p
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2 text-sm font-medium transition ${styles} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2 text-base font-medium transition ${styles} ${className}`}
       {...props}
     >
       {children}
@@ -89,7 +103,7 @@ function UIButton({ children, onClick, variant = "default", className = "", ...p
 }
 
 function BadgePill({ children }) {
-  return <span className="rounded-full border border-slate-200 px-3 py-1 text-xs">{children}</span>;
+  return <span className="rounded-full border border-slate-200 px-3 py-1 text-sm">{children}</span>;
 }
 
 function RangeSlider({ value, onChange, min, max, step = 1 }) {
@@ -130,7 +144,7 @@ function SignalDot({ x, y, delay = 0, duration = 1.6, label }) {
       animate={{ opacity: [0, 1, 1, 0], scale: [0.7, 1.1, 1, 0.8] }}
       transition={{ delay, duration, repeat: Infinity, ease: "easeInOut" }}
     >
-      <div className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/80 px-2 py-1 text-[10px] text-white shadow-lg whitespace-nowrap">
+      <div className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-sky-500/80 px-2 py-1 text-sm text-white shadow-lg whitespace-nowrap">
         {label}
       </div>
     </motion.div>
@@ -171,8 +185,8 @@ function DeviceLabel({ x, y, title, subtitle, icon, active = false, imageSrc, im
         </div>
 
         <div className="pointer-events-none opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition duration-200">
-          <div className="rounded-2xl border px-4 py-4 shadow-xl backdrop-blur bg-white border-slate-200 w-120">
-            <div className="mb-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-[3/4] flex items-center justify-center">
+          <div className="rounded-2xl border px-3 py-3 shadow-xl backdrop-blur bg-white border-slate-200 w-60">
+            <div className="mb-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-[4/5] flex items-center justify-center">
               <img
                 src={imageSrc}
                 alt={imageAlt}
@@ -183,7 +197,7 @@ function DeviceLabel({ x, y, title, subtitle, icon, active = false, imageSrc, im
                   if (fallback) fallback.style.display = "flex";
                 }}
               />
-              <div className="hidden h-full w-full items-center justify-center text-center text-xs text-slate-500 p-4">
+              <div className="hidden h-full w-full items-center justify-center text-center text-sm text-slate-500 p-4">
                 Placeholder image for {title}
               </div>
             </div>
@@ -212,13 +226,13 @@ function Worker({ x, y, safeX, safeY, alerted, moved, name }) {
         <motion.div
           animate={alerted ? { y: [0, -2, 0] } : { y: 0 }}
           transition={{ duration: 0.7, repeat: alerted ? Infinity : 0 }}
-          className={`h-8 w-8 rounded-full border-2 flex items-center justify-center text-xs font-bold ${
+          className={`h-8 w-8 rounded-full border-2 flex items-center justify-center text-sm font-bold ${
             alerted ? "bg-red-50 border-red-500 text-red-700" : "bg-white border-slate-400 text-slate-700"
           }`}
         >
           W
         </motion.div>
-        <div className="rounded-full bg-white/90 border border-slate-200 px-2 py-0.5 text-[10px] text-slate-700 shadow-sm">
+        <div className="rounded-full bg-white/90 border border-slate-200 px-2 py-0.5 text-xs text-slate-700 shadow-sm">
           {name}
         </div>
         <AnimatePresence>
@@ -227,7 +241,7 @@ function Worker({ x, y, safeX, safeY, alerted, moved, name }) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="rounded-full bg-red-600 px-2 py-0.5 text-[10px] text-white shadow"
+              className="rounded-full bg-red-600 px-2 py-0.5 text-xs text-white shadow"
             >
               ALERT
             </motion.div>
@@ -238,79 +252,115 @@ function Worker({ x, y, safeX, safeY, alerted, moved, name }) {
   );
 }
 
+function TrainWithCars() {
+  return (
+    <div className="relative h-20 w-[330px] scale-[0.88] origin-left">
+      <div className="absolute left-0 bottom-1 h-16 w-[110px]">
+        <div className="absolute bottom-5 left-1 h-8 w-[64px] rounded-md bg-red-500 border-2 border-red-700 shadow-md" />
+        <div className="absolute bottom-8 left-[52px] h-8 w-[28px] rounded-t-md rounded-b-sm bg-red-400 border-2 border-red-700" />
+        <div className="absolute bottom-5 left-[78px] h-10 w-[24px] rounded-md bg-slate-600 border-2 border-slate-800" />
+        <div className="absolute bottom-2 left-[18px] h-5 w-5 rounded-full bg-zinc-900" />
+        <div className="absolute bottom-2 left-[76px] h-5 w-5 rounded-full bg-zinc-900" />
+      </div>
+
+      <div className="absolute left-[106px] bottom-6 h-1 w-4 bg-zinc-700 rounded" />
+
+      <div className="absolute left-[118px] bottom-1 h-16 w-[88px]">
+        <div className="absolute bottom-5 left-0 h-8 w-[76px] rounded-md bg-slate-400 border-2 border-slate-600 shadow-sm" />
+        <div className="absolute bottom-2 left-[12px] h-5 w-5 rounded-full bg-zinc-900" />
+        <div className="absolute bottom-2 left-[56px] h-5 w-5 rounded-full bg-zinc-900" />
+      </div>
+
+      <div className="absolute left-[200px] bottom-6 h-1 w-4 bg-zinc-700 rounded" />
+
+      <div className="absolute left-[212px] bottom-1 h-16 w-[88px]">
+        <div className="absolute bottom-5 left-0 h-8 w-[76px] rounded-md bg-amber-400 border-2 border-amber-600 shadow-sm" />
+        <div className="absolute bottom-2 left-[12px] h-5 w-5 rounded-full bg-zinc-900" />
+        <div className="absolute bottom-2 left-[56px] h-5 w-5 rounded-full bg-zinc-900" />
+      </div>
+    </div>
+  );
+}
+
 export default function RailwaySafetyInteractiveDemo() {
   const [step, setStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [trainSpeed, setTrainSpeed] = useState([60]);
-  const [workerCount, setWorkerCount] = useState([3]);
   const [autoReset, setAutoReset] = useState(true);
-  const [scenarioCount, setScenarioCount] = useState(0);
-  const intervalRef = useRef(null);
+  const [teleportTrain, setTeleportTrain] = useState(false);
 
-  const workers = useMemo(() => workersDefault.slice(0, workerCount[0]), [workerCount]);
+  const stepTimeoutRef = useRef(null);
+  const finishTimeoutRef = useRef(null);
+
+  const workers = workersDefault;
+  const stepDelay = Math.max(1100, 2600 - trainSpeed[0] * 12);
+  const trainMoveDuration = Math.max(0.7, 1.6 - trainSpeed[0] / 120);
+  const trainLeft = TRAIN_LEFT_BY_STEP[step] ?? TRAIN_LEFT_BY_STEP[0];
+
+  const clearTimers = () => {
+    if (stepTimeoutRef.current) clearTimeout(stepTimeoutRef.current);
+    if (finishTimeoutRef.current) clearTimeout(finishTimeoutRef.current);
+    stepTimeoutRef.current = null;
+    finishTimeoutRef.current = null;
+  };
 
   const reset = () => {
+    clearTimers();
     setIsRunning(false);
+    setTeleportTrain(true);
     setStep(0);
-    if (intervalRef.current) clearInterval(intervalRef.current);
+    setTimeout(() => setTeleportTrain(false), 40);
   };
 
   const startScenario = () => {
-    setScenarioCount((v) => v + 1);
-    setStep(1);
-    setIsRunning(true);
+    clearTimers();
+    setTeleportTrain(true);
+    setStep(0);
+    setIsRunning(false);
+    setTimeout(() => {
+      setTeleportTrain(false);
+      setStep(1);
+      setIsRunning(true);
+    }, 40);
   };
 
-  const nextStep = () => {
-    setStep((prev) => {
-      if (prev >= STAGES.length - 1) {
-        if (autoReset) {
-          setTimeout(() => {
-            setStep(0);
-            setIsRunning(false);
-          }, 1600);
-        } else {
-          setIsRunning(false);
-        }
-        return prev;
-      }
-      return prev + 1;
-    });
+  const stepForward = () => {
+    clearTimers();
+    setIsRunning(false);
+    setStep((prev) => Math.min(prev + 1, STAGES.length - 1));
+  };
+
+  const stepBack = () => {
+    clearTimers();
+    setIsRunning(false);
+    setStep((prev) => Math.max(prev - 1, 0));
   };
 
   useEffect(() => {
-    if (!isRunning) {
-      if (intervalRef.current) clearInterval(intervalRef.current);
+    clearTimers();
+
+    if (!isRunning) return;
+
+    if (step >= STAGES.length - 1) {
+      if (autoReset) {
+        finishTimeoutRef.current = setTimeout(() => {
+          setIsRunning(false);
+          setTeleportTrain(true);
+          setStep(0);
+          setTimeout(() => setTeleportTrain(false), 40);
+        }, 5000);
+      } else {
+        setIsRunning(false);
+      }
       return;
     }
 
-    const base = 1500;
-    const speedFactor = (110 - trainSpeed[0]) * 8;
-    const delay = Math.max(1000, base + speedFactor);
+    stepTimeoutRef.current = setTimeout(() => {
+      setStep((prev) => Math.min(prev + 1, STAGES.length - 1));
+    }, stepDelay);
 
-    intervalRef.current = setInterval(() => {
-      setStep((prev) => {
-        if (prev >= STAGES.length - 1) {
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-          if (autoReset) {
-            setTimeout(() => {
-              setStep(0);
-              setIsRunning(false);
-            }, 1600);
-          } else {
-            setIsRunning(false);
-          }
-          return prev;
-        }
-        return prev + 1;
-      });
-    }, delay);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [isRunning, trainSpeed, autoReset, scenarioCount]);
+    return clearTimers;
+  }, [isRunning, step, stepDelay, autoReset]);
 
   const vibrationDetected = step >= 2;
   const relayActive = step >= 3;
@@ -326,7 +376,7 @@ export default function RailwaySafetyInteractiveDemo() {
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div>
                 <PanelTitle className="text-2xl md:text-3xl">Railway Worker Safety Demo</PanelTitle>
-                <p className="text-sm text-slate-600 mt-2 max-w-2xl">
+                <p className="text-base text-slate-600 mt-2 max-w-2xl">
                   Interactive static presentation showing how rail vibrations are detected, forwarded over distance, and turned into alerts for workers wearing warning devices.
                 </p>
               </div>
@@ -350,52 +400,43 @@ export default function RailwaySafetyInteractiveDemo() {
             <div className="relative h-[980px] w-full overflow-hidden rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,#dff4ff_0%,#f8fafc_18%,#d9f99d_18%,#bbf7d0_100%)]">
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_20%_20%,white,transparent_25%),radial-gradient(circle_at_80%_15%,white,transparent_20%),radial-gradient(circle_at_50%_80%,white,transparent_18%)]" />
 
-              <div className="absolute left-0 right-0 top-[50%] h-24 -translate-y-1/2 bg-slate-700/90 shadow-inner" />
-              <div className="absolute left-0 right-0 top-[47.3%] h-1 bg-slate-300" />
-              <div className="absolute left-0 right-0 top-[52.7%] h-1 bg-slate-300" />
+              <div className="absolute left-0 right-0 top-[50%] h-16 -translate-y-1/2 bg-slate-700/90 shadow-inner" />
+              <div className="absolute left-0 right-0 top-[48.2%] h-1 bg-slate-300" />
+              <div className="absolute left-0 right-0 top-[51.8%] h-1 bg-slate-300" />
 
               {Array.from({ length: 36 }).map((_, i) => (
                 <div
                   key={i}
-                  className="absolute top-[50%] h-12 w-2 -translate-y-1/2 bg-amber-950/80 rounded"
+                  className="absolute top-[50%] h-10 w-1.5 -translate-y-1/2 bg-amber-950/80 rounded"
                   style={{ left: `${1 + i * 2.75}%` }}
                 />
               ))}
 
-              {/* Rail sensor moved noticeably to the right */}
               <div className="absolute left-[27%] top-[28%] h-[22%] w-1 bg-slate-700" />
               <div className="absolute left-[26.2%] top-[22%] h-10 w-10 rounded-full bg-slate-700 border-4 border-white shadow-lg" />
 
-              {/* Forwarder close to sensor */}
               <div className="absolute left-[36%] top-[20%] h-[28%] w-3 rounded bg-slate-700" />
               <div className="absolute left-[35.2%] top-[16%] h-8 w-8 rounded-full bg-amber-500 border-4 border-white shadow-lg" />
 
-              {/* Station near workers */}
               <div className="absolute left-[84%] top-[20%] h-[30%] w-4 rounded bg-slate-700" />
               <div className="absolute left-[83.1%] top-[15%] h-9 w-9 rounded-full bg-sky-600 border-4 border-white shadow-lg" />
 
               <motion.div
-                className="absolute top-[43%] scale-90 origin-left"
-                animate={{ left: step >= 1 ? ["-20%", "200%"] : "-20%" }}
-                transition={{ duration: Math.max(11.5, 40 - trainSpeed[0] / 11), ease: "linear" }}
-                style={{ left: "-20%" }}
+                className="absolute top-[43%] origin-left"
+                animate={{ left: `${trainLeft}%` }}
+                transition={teleportTrain ? { duration: 0 } : { duration: trainMoveDuration, ease: "easeInOut" }}
+                style={{ left: `${trainLeft}%` }}
               >
-                <div className="relative h-28 w-56">
-                  <div className="absolute bottom-8 left-3 h-14 w-32 rounded-lg bg-red-600 shadow-lg border-2 border-red-800" />
-                  <div className="absolute bottom-11 left-24 h-10 w-18 rounded bg-red-500 border-2 border-red-800" />
-                  <div className="absolute bottom-5 left-40 h-16 w-12 rounded bg-zinc-700 border-2 border-zinc-800" />
-                  <div className="absolute bottom-3 left-10 h-7 w-7 rounded-full bg-zinc-900" />
-                  <div className="absolute bottom-3 left-41 h-7 w-7 rounded-full bg-zinc-900" />
-                </div>
+                <TrainWithCars />
               </motion.div>
 
               <AnimatePresence>
-                {step >= 1 && (
+                {step >= 1 && step < 7 && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute left-[2%] top-[34%] rounded-full bg-white/95 px-3 py-1 text-xs font-medium border border-slate-200 shadow"
+                    className="absolute left-[2%] top-[34%] rounded-full bg-white/95 px-3 py-1 text-sm font-medium border border-slate-200 shadow"
                   >
                     Train approaching from far outside the monitored zone
                   </motion.div>
@@ -411,7 +452,7 @@ export default function RailwaySafetyInteractiveDemo() {
               )}
 
               <div className="absolute left-[10%] top-[39%] h-[21%] w-[20%] rounded-[40px] border-2 border-dashed border-emerald-500/70 bg-emerald-100/30" />
-              <div className="absolute left-[23%] top-[62%] rounded-full bg-emerald-600 px-3 py-1 text-xs text-white shadow">
+              <div className="absolute left-[23%] top-[62%] rounded-full bg-emerald-600 px-3 py-1 text-sm text-white shadow">
                 Early vibration detection zone
               </div>
 
@@ -449,11 +490,11 @@ export default function RailwaySafetyInteractiveDemo() {
               )}
 
               <div className="absolute left-[63%] top-[44%] h-[21%] w-[33%] rounded-[40px] border-2 border-dashed border-red-400/70 bg-red-100/30" />
-              <div className="absolute left-[70%] top-[66%] rounded-full bg-red-600 px-3 py-1 text-xs text-white shadow">
+              <div className="absolute left-[70%] top-[66%] rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow">
                 Worker danger zone near rails
               </div>
 
-              {workers.map((w) => (
+              {workersDefault.map((w) => (
                 <Worker
                   key={w.id}
                   x={w.x}
@@ -474,7 +515,7 @@ export default function RailwaySafetyInteractiveDemo() {
                 icon={<Activity className="h-4 w-4" />}
                 active={vibrationDetected}
                 imageSrc={deviceImages.railSensor}
-                imageAlt="Rail sensor placeholder"
+                imageAlt="Rail sensor"
               />
               <DeviceLabel
                 x={37}
@@ -484,7 +525,7 @@ export default function RailwaySafetyInteractiveDemo() {
                 icon={<Radio className="h-4 w-4" />}
                 active={relayActive}
                 imageSrc={deviceImages.forwarder}
-                imageAlt="Forwarder placeholder"
+                imageAlt="Forwarder"
               />
               <DeviceLabel
                 x={84}
@@ -494,7 +535,7 @@ export default function RailwaySafetyInteractiveDemo() {
                 icon={<Waves className="h-4 w-4" />}
                 active={stationActive}
                 imageSrc={deviceImages.station}
-                imageAlt="Station device placeholder"
+                imageAlt="Station device"
               />
               <DeviceLabel
                 x={74}
@@ -504,20 +545,39 @@ export default function RailwaySafetyInteractiveDemo() {
                 icon={<ShieldAlert className="h-4 w-4" />}
                 active={workersAlerted}
                 imageSrc={deviceImages.wearables}
-                imageAlt="Wearable placeholder"
+                imageAlt="Wearables"
               />
 
               <AnimatePresence>
                 {workersMoved && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 8 }}
-                    className="absolute right-4 bottom-4 rounded-2xl bg-emerald-600 px-4 py-3 text-white shadow-xl"
-                  >
-                    <div className="font-semibold">Workers reached safer positions</div>
-                    <div className="text-xs text-emerald-50 mt-1">Train continues through while the area is cleared</div>
-                  </motion.div>
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 8 }}
+                      className="absolute right-4 bottom-4 rounded-2xl bg-emerald-600 px-4 py-3 text-white shadow-xl"
+                    >
+                      <div className="font-semibold text-lg">
+                        {step >= 7 ? "Train passed safely" : "Workers reached safer positions"}
+                      </div>
+                      <div className="text-sm text-emerald-50 mt-1">
+                        {step >= 7
+                          ? "The train clears the work area in a separate final step."
+                          : "Workers are clear of the rails. The next step sends the train out of the scene."}
+                      </div>
+                    </motion.div>
+
+                    {step >= 7 && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.96 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.96 }}
+                        className="absolute right-6 top-[36%] rounded-full bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-lg"
+                      >
+                        Train passed safely
+                      </motion.div>
+                    )}
+                  </>
                 )}
               </AnimatePresence>
             </div>
@@ -539,7 +599,12 @@ export default function RailwaySafetyInteractiveDemo() {
                   {isRunning ? <PauseCircle className="mr-2 h-4 w-4" /> : <PlayCircle className="mr-2 h-4 w-4" />}
                   {isRunning ? "Pause" : "Resume"}
                 </UIButton>
-                <UIButton onClick={nextStep} variant="outline">
+                <UIButton onClick={stepBack} variant="outline">
+                  <ChevronLeft className="mr-2 h-4 w-4" />
+                  Step back
+                </UIButton>
+                <UIButton onClick={stepForward} variant="outline">
+                  <ChevronRight className="mr-2 h-4 w-4" />
                   Step forward
                 </UIButton>
                 <UIButton onClick={reset} variant="ghost">
@@ -549,25 +614,19 @@ export default function RailwaySafetyInteractiveDemo() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center justify-between text-base">
                   <span className="font-medium">Train speed</span>
                   <span className="text-slate-600">{trainSpeed[0]}%</span>
                 </div>
                 <RangeSlider value={trainSpeed[0]} onChange={setTrainSpeed} min={20} max={100} step={5} />
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">Workers nearby</span>
-                  <span className="text-slate-600">{workerCount[0]}</span>
-                </div>
-                <RangeSlider value={workerCount[0]} onChange={setWorkerCount} min={1} max={3} step={1} />
-              </div>
-
               <div className="flex items-center justify-between rounded-2xl border border-slate-200 p-3">
                 <div>
-                  <div className="text-sm font-medium">Auto reset after scenario</div>
-                  <div className="text-xs text-slate-600">Useful during interviews to replay quickly</div>
+                  <div className="text-base font-medium">Auto reset after final step</div>
+                  <div className="text-sm text-slate-600">
+                    Train pauses for 5 seconds at the end, then teleports back.
+                  </div>
                 </div>
                 <Toggle checked={autoReset} onChange={setAutoReset} />
               </div>
@@ -580,19 +639,20 @@ export default function RailwaySafetyInteractiveDemo() {
             </PanelHeader>
             <PanelContent>
               <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4">
-                <div className="flex items-center gap-2 text-sm font-semibold">
+                <div className="flex items-center gap-2 text-base font-semibold">
                   <AlertTriangle className="h-4 w-4" />
                   Current stage
                 </div>
-                <div className="mt-3 text-lg font-semibold">{STAGES[step]}</div>
-                <p className="mt-2 text-sm text-slate-600 leading-6">
+                <div className="mt-3 text-xl font-semibold">{STAGES[step]}</div>
+                <p className="mt-2 text-base text-slate-600 leading-7">
                   {step === 0 && "The system is waiting. No train has entered the monitored section yet."}
-                  {step === 1 && "A train is still far away and approaching the monitored section from a much greater distance."}
-                  {step === 2 && "The rail sensor detects vibration well before the train reaches the sensor location, triggering an early warning event."}
-                  {step === 3 && "The nearby forwarder wirelessly receives the signal and relays it over long range."}
-                  {step === 4 && "The station device near the workers receives the warning message and prepares local broadcast."}
-                  {step === 5 && "Wearable devices alert workers immediately so they know a train is coming."}
-                  {step === 6 && "Workers spread outward into safer positions while the train keeps passing through the section."}
+                  {step === 1 && "The train moves into the monitored approach zone."}
+                  {step === 2 && "The rail sensor detects vibration before the train reaches the workers."}
+                  {step === 3 && "The forwarder relays the warning further down the line."}
+                  {step === 4 && "The station device near the workers receives the alert."}
+                  {step === 5 && "Wearables warn workers that a train is approaching."}
+                  {step === 6 && "Workers spread outward into safer positions and the train pauses before the final clearance step."}
+                  {step === 7 && "The train clears the work area in a separate final step after workers are already safe."}
                 </p>
               </div>
             </PanelContent>
@@ -605,14 +665,14 @@ export default function RailwaySafetyInteractiveDemo() {
             <PanelContent>
               <div className="grid gap-3">
                 {[
-                  "Toggle between one-way rail section and a larger industrial site layout.",
-                  "Add an option to simulate different warning distances or train speeds.",
-                  "Let the user click each device to view its role, location, and communication type.",
-                  "Show estimated timeline from detection to worker alert as a visual progress bar.",
-                  "Add a comparison mode: current manual safety process vs. automated warning process.",
-                  "Display a night/fog mode to emphasize why autonomous warning matters in low visibility.",
+                  "Add click-to-explain hotspots directly on each device.",
+                  "Show a horizontal timeline that tracks the current stage visually.",
+                  "Add a low-visibility mode with fog or nighttime lighting.",
+                  "Create a comparison mode between manual lookout and automated detection.",
+                  "Add an industrial site map view as an alternative scene.",
+                  "Display the warning propagation delay as metrics beside the scene.",
                 ].map((idea) => (
-                  <div key={idea} className="rounded-2xl border border-slate-200 p-3 text-sm text-slate-700 bg-white">
+                  <div key={idea} className="rounded-2xl border border-slate-200 p-3 text-base text-slate-700 bg-white">
                     {idea}
                   </div>
                 ))}
