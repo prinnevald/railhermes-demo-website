@@ -41,11 +41,11 @@ const deviceImages = {
 const TRAIN_LEFT_BY_STEP = {
   0: -28,
   1: -14,
-  2: -2,
-  3: 10,
-  4: 22,
-  5: 34,
-  6: 52,
+  2: -6,
+  3: 2,
+  4: 12,
+  5: 24,
+  6: 34,
   7: 88,
 };
 
@@ -285,7 +285,6 @@ function TrainWithCars() {
 export default function RailwaySafetyInteractiveDemo() {
   const [step, setStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [trainSpeed, setTrainSpeed] = useState([60]);
   const [autoReset, setAutoReset] = useState(true);
   const [teleportTrain, setTeleportTrain] = useState(false);
 
@@ -293,8 +292,8 @@ export default function RailwaySafetyInteractiveDemo() {
   const finishTimeoutRef = useRef(null);
 
   const workers = workersDefault;
-  const stepDelay = Math.max(1100, 2600 - trainSpeed[0] * 12);
-  const trainMoveDuration = Math.max(0.7, 1.6 - trainSpeed[0] / 120);
+  const stepDelay = 1800;
+  const trainMoveDuration = 1.05;
   const trainLeft = TRAIN_LEFT_BY_STEP[step] ?? TRAIN_LEFT_BY_STEP[0];
 
   const clearTimers = () => {
@@ -451,7 +450,7 @@ export default function RailwaySafetyInteractiveDemo() {
                 </>
               )}
 
-              <div className="absolute left-[10%] top-[39%] h-[21%] w-[20%] rounded-[40px] border-2 border-dashed border-emerald-500/70 bg-emerald-100/30" />
+              <div className="absolute left-[2%] top-[39%] h-[21%] w-[30%] rounded-[40px] border-2 border-dashed border-emerald-500/70 bg-emerald-100/30" />
               <div className="absolute left-[23%] top-[62%] rounded-full bg-emerald-600 px-3 py-1 text-sm text-white shadow">
                 Early vibration detection zone
               </div>
@@ -613,14 +612,6 @@ export default function RailwaySafetyInteractiveDemo() {
                 </UIButton>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-base">
-                  <span className="font-medium">Train speed</span>
-                  <span className="text-slate-600">{trainSpeed[0]}%</span>
-                </div>
-                <RangeSlider value={trainSpeed[0]} onChange={setTrainSpeed} min={20} max={100} step={5} />
-              </div>
-
               <div className="flex items-center justify-between rounded-2xl border border-slate-200 p-3">
                 <div>
                   <div className="text-base font-medium">Auto reset after final step</div>
@@ -658,27 +649,7 @@ export default function RailwaySafetyInteractiveDemo() {
             </PanelContent>
           </Panel>
 
-          <Panel>
-            <PanelHeader>
-              <PanelTitle className="text-xl">Extra interaction ideas</PanelTitle>
-            </PanelHeader>
-            <PanelContent>
-              <div className="grid gap-3">
-                {[
-                  "Add click-to-explain hotspots directly on each device.",
-                  "Show a horizontal timeline that tracks the current stage visually.",
-                  "Add a low-visibility mode with fog or nighttime lighting.",
-                  "Create a comparison mode between manual lookout and automated detection.",
-                  "Add an industrial site map view as an alternative scene.",
-                  "Display the warning propagation delay as metrics beside the scene.",
-                ].map((idea) => (
-                  <div key={idea} className="rounded-2xl border border-slate-200 p-3 text-base text-slate-700 bg-white">
-                    {idea}
-                  </div>
-                ))}
-              </div>
-            </PanelContent>
-          </Panel>
+
         </div>
       </div>
     </div>
