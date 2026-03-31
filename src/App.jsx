@@ -73,8 +73,6 @@ const TRANSLATIONS = {
     stepBack: "Step back",
     stepForward: "Step forward",
     reset: "Reset",
-    autoResetTitle: "Auto reset after final step",
-    autoResetSubtitle: "Train pauses for 5 seconds at the end, then teleports back.",
     viewerTitle: "What the viewer is seeing",
     currentStage: "Current stage",
     approachLabel: "Train approaching from far outside the monitored zone",
@@ -129,8 +127,6 @@ const TRANSLATIONS = {
     stepBack: "Шаг назад",
     stepForward: "Шаг вперёд",
     reset: "Сброс",
-    autoResetTitle: "Автосброс после финального шага",
-    autoResetSubtitle: "Поезд ждёт 5 секунд в конце, затем телепортируется в начало.",
     viewerTitle: "Что видит пользователь",
     currentStage: "Текущий этап",
     approachLabel: "Поезд приближается издалека к контролируемой зоне",
@@ -386,7 +382,6 @@ function TrainWithCars() {
 export default function RailwaySafetyInteractiveDemo() {
   const [step, setStep] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [autoReset, setAutoReset] = useState(true);
   const [teleportTrain, setTeleportTrain] = useState(false);
   const [language, setLanguage] = useState("en");
 
@@ -443,16 +438,12 @@ export default function RailwaySafetyInteractiveDemo() {
     if (!isRunning) return;
 
     if (step >= STAGES.length - 1) {
-      if (autoReset) {
-        finishTimeoutRef.current = setTimeout(() => {
-          setIsRunning(false);
-          setTeleportTrain(true);
-          setStep(0);
-          setTimeout(() => setTeleportTrain(false), 40);
-        }, 5000);
-      } else {
+      finishTimeoutRef.current = setTimeout(() => {
         setIsRunning(false);
-      }
+        setTeleportTrain(true);
+        setStep(0);
+        setTimeout(() => setTeleportTrain(false), 40);
+      }, 10000);
       return;
     }
 
@@ -461,7 +452,7 @@ export default function RailwaySafetyInteractiveDemo() {
     }, stepDelay);
 
     return clearTimers;
-  }, [isRunning, step, autoReset]);
+  }, [isRunning, step]);
 
   const vibrationDetected = step >= 2;
   const relayActive = step >= 3;
@@ -725,14 +716,6 @@ export default function RailwaySafetyInteractiveDemo() {
                   <RotateCcw className="mr-2 h-4 w-4" />
                   {t.reset}
                 </UIButton>
-              </div>
-
-              <div className="flex items-center justify-between rounded-2xl border border-slate-200 p-3">
-                <div>
-                  <div className="text-base font-medium">{t.autoResetTitle}</div>
-                  <div className="text-sm text-slate-600">{t.autoResetSubtitle}</div>
-                </div>
-                <Toggle checked={autoReset} onChange={setAutoReset} />
               </div>
             </PanelContent>
           </Panel>
