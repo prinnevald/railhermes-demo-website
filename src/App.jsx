@@ -26,9 +26,9 @@ const STAGES = [
 ];
 
 const workersDefault = [
-  { id: 1, name: "Worker A", x: 78, y: 72, safeX: 93, safeY: 28 },
+  { id: 1, name: "Worker A", x: 80, y: 63, safeX: 93, safeY: 28 },
   { id: 2, name: "Worker B", x: 87, y: 58, safeX: 70, safeY: 70 },
-  { id: 3, name: "Worker C", x: 70, y: 56, safeX: 65, safeY: 30 },
+  { id: 3, name: "Worker C", x: 76, y: 56, safeX: 65, safeY: 30 },
 ];
 
 const deviceImages = {
@@ -81,6 +81,9 @@ const TRANSLATIONS = {
     stationLabel: "Station receives alert",
     detectionZone: "Early vibration detection zone",
     dangerZone: "Worker danger zone near rails",
+    distanceDetection: "~500 m",
+    distanceRelay: "~3–4 km",
+    distanceDanger: "~200 m",
     railSensorTitle: "Rail Sensor",
     railSensorSubtitle: "Mounted on the rails to sense early vibration from an approaching train",
     forwarderTitle: "Forwarder",
@@ -135,6 +138,9 @@ const TRANSLATIONS = {
     stationLabel: "Станция получила сигнал",
     detectionZone: "Зона раннего обнаружения вибрации",
     dangerZone: "Опасная зона для рабочих у рельсов",
+    distanceDetection: "~500 м",
+    distanceRelay: "~2–3 км",
+    distanceDanger: "~200 м",
     railSensorTitle: "Датчик на рельсе",
     railSensorSubtitle: "Установлен на рельсе для раннего обнаружения вибрации от приближающегося поезда",
     forwarderTitle: "Ретранслятор",
@@ -271,17 +277,17 @@ function PulseRing({ x, y, color = "bg-emerald-500", size = 14, active = true })
 
 function DeviceLabel({ x, y, title, subtitle, icon, active = false, imageSrc, imageAlt }) {
   return (
-    <div className="absolute group" style={{ left: `${x}%`, top: `${y}%` }}>
-      <div className="-translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-3">
+    <div className="absolute" style={{ left: `${x}%`, top: `${y}%` }}>
+      <div className="-translate-x-1/2 -translate-y-1/2">
         <div
-          className={`h-12 w-12 rounded-full border-4 shadow-lg flex items-center justify-center transition ${
+          className={`peer h-12 w-12 rounded-full border-4 shadow-lg flex items-center justify-center transition ${
             active ? "bg-white border-black scale-105" : "bg-white/95 border-white"
           }`}
         >
           <div className="text-slate-900">{icon}</div>
         </div>
 
-        <div className="pointer-events-none opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition duration-200">
+        <div className="pointer-events-none absolute left-1/2 top-[calc(100%+12px)] -translate-x-1/2 opacity-0 translate-y-2 transition duration-200 peer-hover:opacity-100 peer-hover:translate-y-0">
           <div className="rounded-2xl border px-3 py-3 shadow-xl backdrop-blur bg-white border-slate-200 w-60">
             <div className="mb-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-[4/5] flex items-center justify-center">
               <img
@@ -519,14 +525,14 @@ export default function RailwaySafetyInteractiveDemo() {
                 />
               ))}
 
-              <div className="absolute left-[27%] top-[28%] h-[22%] w-1 bg-slate-700" />
+              <div className="absolute left-[27%] top-[28%] h-[22%] w-1 border-l-2 border-dashed border-slate-700" />
               <div className="absolute left-[26.2%] top-[22%] h-10 w-10 rounded-full bg-slate-700 border-4 border-white shadow-lg" />
 
               <div className="absolute left-[36%] top-[20%] h-[28%] w-3 rounded bg-slate-700" />
-              <div className="absolute left-[35.2%] top-[16%] h-8 w-8 rounded-full bg-amber-500 border-4 border-white shadow-lg" />
+              <div className="absolute left-[35.5%] top-[16%] h-8 w-8 rounded-full bg-amber-500 border-4 border-white shadow-lg" />
 
-              <div className="absolute left-[84%] top-[20%] h-[30%] w-4 rounded bg-slate-700" />
-              <div className="absolute left-[83.1%] top-[15%] h-9 w-9 rounded-full bg-sky-600 border-4 border-white shadow-lg" />
+              <div className="absolute left-[84.7%] top-[20%] h-[30%] w-0 border-l-[3px] border-dashed border-slate-700" />
+              <div className="absolute left-[84%] top-[15%] h-9 w-9 rounded-full bg-sky-600 border-4 border-white shadow-lg" />
 
               <motion.div
                 className="absolute top-[43%] origin-left"
@@ -543,7 +549,7 @@ export default function RailwaySafetyInteractiveDemo() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute left-[2%] top-[34%] rounded-full bg-white/95 px-3 py-1 text-sm font-medium border border-slate-200 shadow"
+                    className="absolute left-[2%] top-[30%] rounded-full bg-white/95 px-3 py-1 text-sm font-medium border border-slate-200 shadow"
                   >
                     {t.approachLabel}
                   </motion.div>
@@ -554,11 +560,14 @@ export default function RailwaySafetyInteractiveDemo() {
                 <>
                   <PulseRing x={28} y={50} color="bg-emerald-500" size={20} active />
                   <PulseRing x={31} y={50} color="bg-emerald-500" size={18} active />
-                  <SignalDot x={31} y={40} label={t.vibrationLabel} delay={0.2} duration={1.6} />
+                  <SignalDot x={10} y={42} label={t.vibrationLabel} delay={0.2} duration={1.6} />
                 </>
               )}
 
               <div className="absolute left-[2%] top-[39%] h-[21%] w-[30%] rounded-[40px] border-2 border-dashed border-emerald-500/70 bg-emerald-100/30" />
+              <div className="absolute left-[12%] top-[35.5%] rounded-full bg-emerald-700 px-3 py-1 text-sm font-medium text-white shadow">
+                {t.distanceDetection}
+              </div>
               <div className="absolute left-[23%] top-[62%] rounded-full bg-emerald-600 px-3 py-1 text-sm text-white shadow">
                 {t.detectionZone}
               </div>
@@ -571,33 +580,36 @@ export default function RailwaySafetyInteractiveDemo() {
                     animate={{ width: "7%", opacity: 1 }}
                     transition={{ duration: 1.1, ease: "easeInOut" }}
                   />
-                  <SignalDot x={34} y={31} label={t.relayLabel} delay={0.4} duration={1.8} />
+                  <SignalDot x={32} y={30} label={t.relayLabel} delay={0.4} duration={1.8} />
                 </>
               )}
+              
+
 
               {stationActive && (
                 <>
                   <motion.div
-                    className="absolute left-[37%] top-[24%] h-1 origin-left rounded-full bg-orange-500 shadow"
+                    className="absolute left-[37%] top-[24%] h-1 origin-left rounded-full bg-orange-500 shadow z-10"
                     initial={{ width: 0, opacity: 0.4 }}
                     animate={{ width: "46%", opacity: 1 }}
                     transition={{ duration: 1.0, ease: "easeInOut" }}
                   />
                   <PulseRing x={84} y={30} color="bg-sky-500" size={22} active />
-                  <SignalDot x={60} y={24} label={t.stationLabel} delay={0.2} duration={1.8} />
+                  <SignalDot x={60} y={20} label={t.stationLabel} delay={0.2} duration={1.8} />
                 </>
               )}
+              
+              <div className="absolute left-[60%] top-[25%] -translate-x-1/2 rounded-full bg-orange-600 px-3 py-1 text-sm font-medium text-white shadow z-20 whitespace-nowrap">
+                    {t.distanceRelay}
+                  </div>
 
-              {workersAlerted && (
-                <>
-                  <PulseRing x={78} y={72} color="bg-red-500" size={20} active />
-                  <PulseRing x={87} y={58} color="bg-red-500" size={20} active />
-                  <PulseRing x={70} y={56} color="bg-red-500" size={20} active />
-                </>
-              )}
+  
 
-              <div className="absolute left-[63%] top-[44%] h-[21%] w-[33%] rounded-[40px] border-2 border-dashed border-red-400/70 bg-red-100/30" />
-              <div className="absolute left-[70%] top-[66%] rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow">
+              <div className="absolute left-[71%] top-[44%] h-[21%] w-[20%] rounded-[40px] border-2 border-dashed border-red-400/70 bg-red-100/30" />
+              <div className="absolute left-[76%] top-[40.5%] rounded-full bg-red-700 px-3 py-1 text-sm font-medium text-white shadow">
+                {t.distanceDanger}
+              </div>
+              <div className="absolute left-[74%] top-[66%] rounded-full bg-red-600 px-3 py-1 text-sm text-white shadow">
                 {t.dangerZone}
               </div>
 
@@ -615,8 +627,8 @@ export default function RailwaySafetyInteractiveDemo() {
               ))}
 
               <DeviceLabel
-                x={27}
-                y={50}
+                x={27.1}
+                y={16}
                 title={t.railSensorTitle}
                 subtitle={t.railSensorSubtitle}
                 icon={<Activity className="h-4 w-4" />}
@@ -625,8 +637,8 @@ export default function RailwaySafetyInteractiveDemo() {
                 imageAlt="Rail sensor"
               />
               <DeviceLabel
-                x={37}
-                y={40}
+                x={36.3}
+                y={12}
                 title={t.forwarderTitle}
                 subtitle={t.forwarderSubtitle}
                 icon={<Radio className="h-4 w-4" />}
@@ -635,8 +647,8 @@ export default function RailwaySafetyInteractiveDemo() {
                 imageAlt="Forwarder"
               />
               <DeviceLabel
-                x={84}
-                y={40}
+                x={84.7}
+                y={12}
                 title={t.stationTitle}
                 subtitle={t.stationSubtitle}
                 icon={<Waves className="h-4 w-4" />}
@@ -645,8 +657,8 @@ export default function RailwaySafetyInteractiveDemo() {
                 imageAlt="Station device"
               />
               <DeviceLabel
-                x={74}
-                y={65}
+                x={73}
+                y={48}
                 title={t.wearablesTitle}
                 subtitle={t.wearablesSubtitle}
                 icon={<ShieldAlert className="h-4 w-4" />}
