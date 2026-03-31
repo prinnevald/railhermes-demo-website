@@ -32,9 +32,9 @@ const workersDefault = [
 ];
 
 const deviceImages = {
-  railSensor: "/images/rail-sensor2.jpg",
-  forwarder: "/images/forwarder2.jpg",
-  station: "/images/station2.jpg",
+  railSensor: "/images/rail-sensor.jpg",
+  forwarder: "/images/forwarder.jpg",
+  station: "/images/station.jpg",
   wearables: "/images/wearable.jpg",
 };
 
@@ -289,7 +289,7 @@ function DeviceLabel({ x, y, title, subtitle, icon, active = false, imageSrc, im
 
         <div className="pointer-events-none absolute left-1/2 top-[calc(100%+12px)] -translate-x-1/2 opacity-0 translate-y-2 transition duration-200 peer-hover:opacity-100 peer-hover:translate-y-0">
           <div className="rounded-2xl border px-3 py-3 shadow-xl backdrop-blur bg-white border-slate-200 w-60">
-            <div className="mb-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-[4/5] flex items-center justify-center">
+            <div className="mb-3 overflow-hidden rounded-xl border border-slate-200 bg-slate-100 aspect-[4/4] flex items-center justify-center">
               <img
                 src={imageSrc}
                 alt={imageAlt}
