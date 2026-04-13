@@ -164,7 +164,7 @@ function MediaCarousel() {
   const prev = () => setIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+    <div className="grid items-start gap-6 lg:grid-cols-[1.2fr_0.8fr]">
       <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm">
         <div className="relative aspect-[16/10] bg-slate-100">
           {active.type === "video" ? (
@@ -513,6 +513,89 @@ export default function LandingPage() {
           ))}
         </div>
       </Section>
+      
+      <section id="team" className="py-16 md:py-24">
+  <div className="mx-auto max-w-7xl px-4 md:px-8">
+    <div className="mb-10 max-w-3xl">
+      <div className="mb-3 inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
+        Team & partners
+      </div>
+    </div>
+
+    <div className="grid gap-12">
+      <div>
+        <h3 className="mb-6 text-2xl font-semibold text-slate-900">Team</h3>
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-4 h-32 w-32 overflow-hidden rounded-3xl bg-slate-100">
+              <img
+                src="/images/team/team-1.png"
+                alt="Team member 1"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <h4 className="text-xl font-semibold text-slate-900">Dimitrios Zorbas</h4>
+            <div className="mt-1 text-sm font-medium text-slate-500">CTO & Scientific Adviser</div>
+            <p className="mt-4 text-base leading-7 text-slate-600">       
+               CS Associate Professor at NU. 20+ years of experience in IoT.
+            </p>
+          </div>
+
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-4 h-32 w-32 overflow-hidden rounded-3xl bg-slate-100">
+              <img
+                src="/images/team/team-2.jpg"
+                alt="Team member 2"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <h4 className="text-xl font-semibold text-slate-900">Dnislam Urazayev</h4>
+            <div className="mt-1 text-sm font-medium text-slate-500">CEO & IoT/Prototyping Engineer</div>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              NU CS PhD Candidate. 4 years of experience in IoT.
+            </p>
+          </div>
+
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="mb-4 h-32 w-32 overflow-hidden rounded-3xl bg-slate-100">
+              <img
+                src="/images/team/team-3.jpg"
+                alt="Team member 3"
+                className="h-full w-full object-cover"
+              />
+            </div>
+            <h4 className="text-xl font-semibold text-slate-900">Aida Eduard</h4>
+            <div className="mt-1 text-sm font-medium text-slate-500">IoT Network Engineer</div>
+            <p className="mt-4 text-base leading-7 text-slate-600">
+              NU MSc holder in CS. 4 years of experience in IoT.
+            </p>
+          </div>
+        </div>
+      </div>
+
+            <div>
+              <h3 className="mb-6 text-2xl font-semibold text-slate-900">Partners</h3>
+              <div className="grid gap-6 md:grid-cols-2">
+                <div className="flex min-h-[180px] items-center justify-center rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+                  <img
+                    src="/images/partners/nu-logo.png"
+                    alt="Partner 1 logo"
+                    className="max-h-24 w-auto object-contain"
+                  />
+                </div>
+
+                <div className="flex min-h-[180px] items-center justify-center rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+                  <img
+                    src="/images/partners/iot-lab-logo.png"
+                    alt="Partner 2 logo"
+                    className="max-h-32 w-auto object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+    </div>
+  </div>
+</section>
 
       <Section
         id="contact"
