@@ -350,7 +350,7 @@ export default function LandingPage() {
       </h1>
 
       <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-xl">
-        RailHermes is a modular safety concept that detects approaching train-related vibration, relays the warning over distance, and helps alert workers before a vehicle reaches the active work zone.
+        RailHermes is a modular safety system that detects approaching trains through rail vibrations; it triggers a warning which is relayed over long distances, and informs workers to evacuate rails before a vehicle reaches the active work zone.
       </p>
 
       <div className="mt-8 flex flex-wrap gap-4">
