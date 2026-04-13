@@ -336,79 +336,92 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[radial-gradient(circle_at_top,#f8fbff,white_45%,#f8fafc_100%)] text-slate-900">
       <Navbar />
 
-      <section className="relative overflow-hidden py-16 md:py-24">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.08),transparent_25%),radial-gradient(circle_at_80%_10%,rgba(34,197,94,0.08),transparent_20%)]" />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div>
-            <div className="mb-4 inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
-              Industrial rail safety · early warning · wearable alerts
-            </div>
-            <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-900 md:text-6xl md:leading-[1.05]">
-              Early railway worker warning for industrial and rail-adjacent environments
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-xl">
-              RailHermes is a modular safety concept that detects approaching train-related vibration, relays the warning over distance, and helps alert workers before a vehicle reaches the active work zone.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href={demoUrl}
-                className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-base font-medium text-white shadow-sm transition hover:bg-slate-800"
-              >
-                View digital demo
-                <ArrowRight className="h-4 w-4" />
-              </a>
-              <a
-                href={`mailto:${contactEmail}`}
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-base font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
-              >
-                Contact us
-                <Mail className="h-4 w-4" />
-              </a>
-            </div>
-            <div className="mt-10 grid gap-4 sm:grid-cols-3">
-              <StatCard value="~500 m" label="Indicative early vibration detection zone" />
-              <StatCard value="~3–4 km" label="Indicative forwarding distance to station-side device" />
-              <StatCard value="~200 m" label="Indicative worker danger zone context" />
+<section className="relative overflow-hidden py-16 md:py-24">
+  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(14,165,233,0.08),transparent_25%),radial-gradient(circle_at_80%_10%,rgba(34,197,94,0.08),transparent_20%)]" />
+
+  <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 md:px-8 lg:grid-cols-[1.05fr_0.95fr]">
+    <div>
+      <div className="mb-4 inline-flex rounded-full border border-slate-200 bg-white px-3 py-1 text-sm text-slate-600 shadow-sm">
+        Industrial rail safety · early warning · wearable alerts
+      </div>
+
+      <h1 className="max-w-4xl text-4xl font-semibold tracking-tight text-slate-900 md:text-6xl md:leading-[1.05]">
+        Early railway worker warning for industrial and rail-adjacent environments
+      </h1>
+
+      <p className="mt-6 max-w-2xl text-base leading-8 text-slate-600 md:text-xl">
+        RailHermes is a modular safety concept that detects approaching train-related vibration, relays the warning over distance, and helps alert workers before a vehicle reaches the active work zone.
+      </p>
+
+      <div className="mt-8 flex flex-wrap gap-4">
+        <a
+          href={demoUrl}
+          className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 px-5 py-3 text-base font-medium text-white shadow-sm transition hover:bg-slate-800"
+        >
+          View digital demo
+          <ArrowRight className="h-4 w-4" />
+        </a>
+
+        <a
+          href={`mailto:${contactEmail}`}
+          className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-base font-medium text-slate-900 shadow-sm transition hover:bg-slate-50"
+        >
+          Contact us
+          <Mail className="h-4 w-4" />
+        </a>
+      </div>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-3">
+        <StatCard value="~500 m" label="Indicative early vibration detection zone" />
+        <StatCard value="~3–4 km" label="Indicative forwarding distance to station-side device" />
+        <StatCard value="~200 m" label="Indicative worker danger zone context" />
+      </div>
+    </div>
+
+    <div className="flex flex-col gap-4">
+      <div className="flex justify-center">
+        <div className="rounded-3xl border border-slate-200 bg-white px-4 py-3 shadow-sm md:px-6 md:py-4">
+          <img
+            src="/images/logotype.png"
+            alt="RailHermes logo"
+            className="h-16 w-auto md:h-20 lg:h-38"
+          />
+        </div>
+      </div>
+
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl md:p-6">
+        <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
+          <video
+            className="aspect-[16/9] h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="/images/wearable.jpg"
+          >
+            <source src="/videos/loop.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+            <div className="text-sm font-medium text-slate-500">Who it is for</div>
+            <div className="mt-2 text-base leading-7 text-slate-700">
+              Industrial operators, rail-adjacent crews, maintenance teams, and sites where earlier warning matters.
             </div>
           </div>
 
-          <div className="relative">
-          
-            <div className="absolute left-1/2 -top-90 z-20 -translate-x-1/2">
-                <img
-                  src="/images/logotype.png"
-                  alt="RailHermes logo"
-                  className="h-48 w-auto drop-shadow-lg"
-                />
-              </div>
-            <div className="absolute -top-36 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl md:p-6">
-                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
-                
-                  <video
-                    className="aspect-[16/9] h-full w-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    poster="/images/wearable.jpg"
-                  >
-                    <source src="/videos/loop.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="text-sm font-medium text-slate-500">Who it is for</div>
-                  <div className="mt-2 text-base leading-7 text-slate-700">Industrial operators, rail-adjacent crews, maintenance teams, and sites where earlier warning matters.</div>
-                </div>
-                <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-                  <div className="text-sm font-medium text-slate-500">Main value</div>
-                  <div className="mt-2 text-base leading-7 text-slate-700">Early sensing, long-range relay, and local wearable warning in one workflow.</div>
-                </div>
-              </div>
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+            <div className="text-sm font-medium text-slate-500">Main value</div>
+            <div className="mt-2 text-base leading-7 text-slate-700">
+              Early sensing, long-range relay, and local wearable warning in one workflow.
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+  </div>
+</section>
 
       <Section
         id="how-it-works"
