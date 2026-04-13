@@ -20,32 +20,44 @@ import {
 } from "lucide-react";
 
 const demoUrl = "/demo";
-const contactEmail = "hello@railhermes.com";
+const contactEmail = "prinnyprinnevald@gmail.com";
 
 const mediaItems = [
   {
     type: "image",
-    src: "/images/hero-1.jpg",
+    src: "/images/devices.jpg",
     alt: "Prototype overview",
     caption: "Prototype and system concept overview.",
   },
   {
     type: "image",
-    src: "/images/hero-2.jpg",
-    alt: "Field testing",
-    caption: "Field testing and deployment context.",
+    src: "/images/rail-sensor.jpg",
+    alt: "Vibration Sensor",
+    caption: "Vibration sensing and identification device.",
   },
   {
     type: "image",
-    src: "/images/hero-3.jpg",
-    alt: "Device close-up",
-    caption: "Device close-up and mounting concept.",
+    src: "/images/forwarder.jpg",
+    alt: "RF Relay",
+    caption: "Radio data forwarding device.",
+  },
+  {
+    type: "image",
+    src: "/images/station.jpg",
+    alt: "Station device",
+    caption: "Station device that is located near workers.",
+  },
+  {
+    type: "image",
+    src: "/images/wearable.jpg",
+    alt: "Wearable",
+    caption: "Workers wear these to get notified.",
   },
   {
     type: "video",
-    src: "/videos/demo.mp4",
-    alt: "Demo video",
-    caption: "Short product overview or testing video.",
+    src: "/videos/railhermes-demo.mp4",
+    alt: "Presentation Video",
+    caption: "Presentation video of the project.",
     poster: "/images/video-poster.jpg",
   },
 ];
@@ -214,7 +226,6 @@ function MediaCarousel() {
 function Navbar() {
   const [open, setOpen] = useState(false);
   const links = [
-    { href: "#about", label: "About" },
     { href: "#how-it-works", label: "How it works" },
     { href: "#media", label: "Media" },
     { href: "#faq", label: "FAQ" },
@@ -362,10 +373,28 @@ export default function LandingPage() {
           </div>
 
           <div className="relative">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl md:p-6">
-              <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
-                <img src="/images/landing-hero.jpg" alt="RailHermes overview" className="aspect-[4/3] h-full w-full object-cover" />
+          
+            <div className="absolute left-1/2 -top-90 z-20 -translate-x-1/2">
+                <img
+                  src="/images/logotype.png"
+                  alt="RailHermes logo"
+                  className="h-48 w-auto drop-shadow-lg"
+                />
               </div>
+            <div className="absolute -top-36 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl md:p-6">
+                <div className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-slate-50">
+                
+                  <video
+                    className="aspect-[16/9] h-full w-full object-cover"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    poster="/images/wearable.jpg"
+                  >
+                    <source src="/videos/loop.mp4" type="video/mp4" />
+                  </video>
+                </div>
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
                   <div className="text-sm font-medium text-slate-500">Who it is for</div>
@@ -380,57 +409,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      <Section
-        id="about"
-        eyebrow="About RailHermes"
-        title="A presentation layer for explaining the system clearly"
-        description="This page is designed as a concise company-style front page that explains the concept, the motivation, and the intended workflow before the visitor opens the detailed interactive digital demo."
-      >
-        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <h3 className="text-2xl font-semibold text-slate-900">What we do</h3>
-            <p className="mt-4 text-base leading-8 text-slate-600">
-              RailHermes focuses on improving awareness around active rail environments by combining early rail-side detection, wireless signal forwarding, and worker-facing alerts. The goal is to provide a practical and understandable warning chain for product conversations, pilots, and early stakeholder interviews.
-            </p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <div className="mb-3 inline-flex rounded-2xl border border-slate-200 bg-white p-3 text-slate-900">
-                  <Users className="h-5 w-5" />
-                </div>
-                <div className="text-lg font-medium text-slate-900">Who we are</div>
-                <div className="mt-2 text-sm leading-7 text-slate-600">
-                  A team exploring safer workflows for workers operating near active industrial or rail-side movement.
-                </div>
-              </div>
-              <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
-                <div className="mb-3 inline-flex rounded-2xl border border-slate-200 bg-white p-3 text-slate-900">
-                  <BadgeCheck className="h-5 w-5" />
-                </div>
-                <div className="text-lg font-medium text-slate-900">What this site is for</div>
-                <div className="mt-2 text-sm leading-7 text-slate-600">
-                  A clear visit-card style website for introductions, product interviews, and easier explanation of the concept.
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
-            <h3 className="text-2xl font-semibold text-slate-900">Why this matters</h3>
-            <div className="mt-5 space-y-4">
-              {[
-                "Workers can operate close to active track-adjacent areas in noisy or visually complex environments.",
-                "Manual awareness alone may not always provide enough early reaction time.",
-                "A modular early-warning chain helps communicate a safer workflow before a train reaches the crew.",
-              ].map((item) => (
-                <div key={item} className="rounded-3xl border border-slate-200 bg-slate-50 p-5 text-base leading-7 text-slate-600">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </Section>
 
       <Section
         id="how-it-works"
@@ -547,21 +525,13 @@ export default function LandingPage() {
                 <div className="mb-3 inline-flex rounded-2xl border border-slate-200 bg-white p-3 text-slate-900">
                   <MapPin className="h-5 w-5" />
                 </div>
-                <div className="text-lg font-medium text-slate-900">Use this block for</div>
-                <div className="mt-2 text-sm text-slate-600">Location, LinkedIn, meeting link, or company info</div>
+                <div className="text-lg font-medium text-slate-900">Nazarbayev University</div>
+                <div className="mt-2 text-sm text-slate-600">IoT laboratory</div>
               </div>
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8 shadow-sm">
-            <h3 className="text-2xl font-semibold text-slate-900">How to adapt this page</h3>
-            <div className="mt-5 space-y-4 text-base leading-7 text-slate-600">
-              <p>Replace placeholder images and video with your real materials.</p>
-              <p>Swap the text blocks with your company story, team intro, and use cases.</p>
-              <p>Point the demo button to the deployed interactive simulation route on your Vercel site.</p>
-              <p>Add your real logo, contact details, and brand colors when ready.</p>
-            </div>
-          </div>
+
         </div>
       </Section>
     </div>
