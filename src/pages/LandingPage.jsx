@@ -576,7 +576,12 @@ export default function LandingPage() {
         <div>
           <h3 className="mb-6 text-2xl font-semibold text-slate-900">Partners</h3>
           <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <a
+              href="https://nu.edu.kz"
+              target="_blank"
+              rel="noreferrer"
+             className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm"
+             >
               <div className="flex min-h-[180px] items-center justify-center">
                 <img
                   src="/images/partners/nu-logo.png"
@@ -588,9 +593,14 @@ export default function LandingPage() {
               <div className="mt-4 text-center text-m text-slate-600">
                 Kazakhstan's flagship institution of higher education and research. Address: Astana, Kabanbay Batyr Ave, 53
               </div>
-            </div>
+            </a>
 
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm">
+            <a
+              href="https://nu-iot-lab.github.io"
+              target="_blank"
+              rel="noreferrer"
+             className="rounded-[2rem] border border-slate-200 bg-white p-8 shadow-sm"
+             >
               <div className="flex min-h-[180px] items-center justify-center">
                 <img
                   src="/images/partners/iot-lab-logo.png"
@@ -602,7 +612,7 @@ export default function LandingPage() {
               <div className="mt-4 text-center text-m text-slate-600">
                  Led by Prof. Dimitrios Zorbas. Conducting research and developing modern Internet of Things communication and sensing systems. 
               </div>
-            </div>
+            </a>
           </div>
         </div>
     </div>
